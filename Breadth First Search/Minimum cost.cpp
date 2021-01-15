@@ -1,44 +1,30 @@
 #include <bits/stdc++.h>
 using namespace std;
-const int maxn = 1e5 + 17;
-int n, d[maxn], p[maxn];
-bool mark[maxn];
-int main(){
-	ios::sync_with_stdio(0), cin.tie(0);
+ 
+int main() { 
+	ios::sync_with_stdio(0);
 	int t;
-	cin >> t;
+	cin>>t;
 	while(t--){
-		cin >> n;
-		for(int i = 0; i < n; i++)
-			cin >> p[i], p[i]--;
-		fill(d + 1, d + n, n);
-		memset(mark, 0, sizeof mark);
-		queue<int> q({0});
-		while(q.size()){
-			int i = q.front();
-			q.pop();
-			if(mark[i])
-				continue;
-			mark[i] = 1;
-			vector<int> self({i});
-			while(p[self.back()] != i){
-				self.push_back(p[self.back()]);
-				d[self.back()] = d[i];
-				mark[self.back()] = 1;
-			}
-			auto add = [&](int j){
-				if(d[j] <= d[i] + 1)
-					return ;
-				d[j] = d[i] + 1;
-				q.push(j);
-			};
-			for(auto i : self){
-				if(i)
-					add(i - 1);
-				if(i < n - 1)
-					add(i + 1);
-			}
-		}
-		cout << d[n - 1] << '\n';
+		int n,a[50009],dis[50009];
+		cin>>n;
+		for(int i=1;i<=n;i++)cin>>a[i],dis[i]=INT_MAX;
+        dis[n+1]=INT_MAX;
+		dis[a[1]]=0; 
+		set<int>q;
+		q.insert(1); 
+		
+		while(q.size()){ 
+			int i=*(q.begin()); 
+			q.erase(q.begin()); 
+			if(dis[a[i+1]]>dis[a[i]]+1)
+			dis[a[i+1]]=dis[a[i]]+1,q.insert(i+1); 
+			if(dis[a[i-1]]>dis[a[i]]+1)
+			dis[a[i-1]]=dis[a[i]]+1,q.insert(i-1);
+			if(dis[a[a[i]]]>dis[a[i]]&&a[i]!=a[a[i]])
+			dis[a[a[i]]]=dis[a[i]],q.insert(a[i]);
+		} 
+		cout<<dis[a[n]]<<endl;
 	}
+	return 0;
 }
