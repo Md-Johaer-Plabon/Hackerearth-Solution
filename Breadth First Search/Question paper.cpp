@@ -1,69 +1,37 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
-#define extra 1000001
-bool vis[2000010];
-int n,a,b;
-int bfs(int s)
-{
-    for(int i=1;i<=2000001;i++)
-	{
-	    vis[i]=0;
-	}
-	queue<pair<int,int> >q;
-	q.push({s,0});
-	vis[s+extra]=1;
-	while(!q.empty())
-	{
-		int u=q.front().first,lev=q.front().second;q.pop();
-		if(lev>=n)continue;
-		if(!vis[u+a+extra])
-		{
-			vis[u+a+extra]=1;q.push({u+a,lev+1});
-		}
-		if(!vis[u-b+extra])
-		{
-			vis[u-b+extra]=1;q.push({u-b,lev+1});
-		}
-	}
-	int cnt=0;
-	for(int i=1;i<=2000001;i++)
-	{
-	    if(vis[i])cnt++;
-	}
-	return cnt;
-}
-int solve(int n,int a,int b)
-{
-    for(int i=1;i<=2000001;i++)
-	{
-	    vis[i]=0;
-	}
-    for(int i=0;i<=n;i++)
-    {
-        for(int j=0;j<=n-i;j++)
-        {
-            if(vis[a*i-b*j+extra])break;
-            vis[a*i-b*j+extra]=1;
-        }
+#define ll long long 
+int vis[3000005]; 
+#define ex 1000001 
+void solve(){
+	 int t;
+    cin>>t;
+    while(t--){ 
+    	for(int i=0;i<=3000000;i++)vis[i]=0;
+    	ll n,a,b;
+    	cin>>n>>a>>b;
+    	queue<ll>q;
+    	q.push(0); 
+    	while(!q.empty()){
+    	  ll x=q.front(); 
+    	  if(vis[x+ex]==n)break;
+    	  q.pop(); 
+    	  if(vis[x+a+ex]==0&&x+a!=0)
+    	  q.push(x+a);
+    	  if(vis[x-b+ex]==0&&x-b!=0)
+    	  q.push(x-b);
+    	  vis[x+a+ex]=vis[x+ex]+1;
+    	  vis[x-b+ex]=vis[x+ex]+1; 
+    	}  
+    	vis[ex]=1;
+    	ll coun=0;
+    	for(int i=0;i<=3000000;i++)
+    	if(vis[i])coun++;
+    	cout<<coun<<endl;
     }
-    int cnt=0;
-	for(int i=1;i<=2000001;i++)
-	{
-	    if(vis[i])cnt++;
-	}
-	return cnt;
 }
-int main()
-{
-    ios::sync_with_stdio(0);
-    cin.tie(0);
-	int t;
-	cin>>t;
-	while(t--)
-	{
-		cin>>n>>a>>b;
-		cout<<solve(n,a,b)<<"\n";	//first solution
-		//cout<<bfs(0)<<"\n";		//second solution
-	}	
+ 
+int main() { 
+   solve();
 	return 0;
 }
